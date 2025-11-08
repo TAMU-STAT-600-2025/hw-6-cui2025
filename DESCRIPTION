@@ -1,13 +1,19 @@
 Package: GroupHW
 Type: Package
-Title: What the package does (short line)
+Title: Implementation of K-Means and Multinomial Logistic Regression in RcppArmadillo
 Version: 1.0
-Date: 2020-10-17
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Date: 2025-11-08
+Author: Zhilong Zhang
+Maintainer: Zhilong Zhang <zhilongz@tamu.edu>
+Description: 
+    This package provides R and C++ implementations of two core machine learning algorithm: 
+    K-Means clustering and Multinomial Logistic Regression. 
+    Multi-class logistic regression is coded as damped Newton/gradient-style.
+License: GPL (>= 3)
 Imports: Rcpp (>= 1.0.5)
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

@@ -27,22 +27,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// fitLASSOstandardized_prox_Nesterov_c
-arma::colvec fitLASSOstandardized_prox_Nesterov_c(const arma::mat& Xtilde, const arma::colvec& Ytilde, double lambda, const arma::colvec& beta_start, double eps, double s);
-RcppExport SEXP _GroupHW_fitLASSOstandardized_prox_Nesterov_c(SEXP XtildeSEXP, SEXP YtildeSEXP, SEXP lambdaSEXP, SEXP beta_startSEXP, SEXP epsSEXP, SEXP sSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Xtilde(XtildeSEXP);
-    Rcpp::traits::input_parameter< const arma::colvec& >::type Ytilde(YtildeSEXP);
-    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< const arma::colvec& >::type beta_start(beta_startSEXP);
-    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    Rcpp::traits::input_parameter< double >::type s(sSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitLASSOstandardized_prox_Nesterov_c(Xtilde, Ytilde, lambda, beta_start, eps, s));
-    return rcpp_result_gen;
-END_RCPP
-}
 // MyKmeans_c
 arma::uvec MyKmeans_c(const arma::mat& X, int K, const arma::mat& M, int numIter);
 RcppExport SEXP _GroupHW_MyKmeans_c(SEXP XSEXP, SEXP KSEXP, SEXP MSEXP, SEXP numIterSEXP) {
@@ -60,7 +44,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_GroupHW_LRMultiClass_c", (DL_FUNC) &_GroupHW_LRMultiClass_c, 6},
-    {"_GroupHW_fitLASSOstandardized_prox_Nesterov_c", (DL_FUNC) &_GroupHW_fitLASSOstandardized_prox_Nesterov_c, 6},
     {"_GroupHW_MyKmeans_c", (DL_FUNC) &_GroupHW_MyKmeans_c, 4},
     {NULL, NULL, 0}
 };

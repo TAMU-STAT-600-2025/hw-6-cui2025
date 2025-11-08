@@ -2,26 +2,41 @@
 % Please edit documentation in R/LR_wrapper.R
 \name{LRMultiClass}
 \alias{LRMultiClass}
-\title{Title}
+\title{Multinomial Logistic Regression}
 \usage{
 LRMultiClass(X, y, beta_init = NULL, numIter = 50, eta = 0.1, lambda = 1)
 }
 \arguments{
-\item{X}{}
+\item{X}{Numeric matrix \eqn{n \times p}. The first column **must** be all 1s (intercept).}
 
-\item{y}{}
+\item{y}{Integer vector of length \eqn{n} with class labels in \code{0, ..., K-1}.}
 
-\item{beta_init}{}
+\item{beta_init}{Optional numeric matrix \eqn{p \times K} of initial coefficients. If \code{NULL}, initialized to zeros.}
 
-\item{numIter}{}
+\item{numIter}{Positive integer: number of fixed iterations (default \code{50}).}
 
-\item{eta}{}
+\item{eta}{Positive numeric step size (default \code{0.1}).}
 
-\item{lambda}{}
+\item{lambda}{Non-negative numeric L2 penalty (default \code{1}).}
+}
+\value{
+A list with:
+\item{beta}{Numeric matrix \eqn{p \times K} of coefficients (including intercept row).}
+\item{objective}{Numeric vector of length \code{numIter + 1} with objective values per iteration (including start).}
 }
 \description{
-Title
+Fits a multi-class (softmax) logistic regression by (damped) Newton/gradient-style
+updates implemented in C++ via RcppArmadillo.
 }
 \examples{
-# Give example
+set.seed(1)
+n <- 100; p <- 4; K <- 3
+X <- cbind(1, matrix(rnorm(n*(p-1)), n, p-1))
+beta_true <- matrix(rnorm(p*K, sd = 0.5), p, K)
+S <- X \%*\% beta_true
+Smax <- apply(S, 1, max)
+P <- exp(S - Smax); P <- P / rowSums(P)
+y <- apply(P, 1, function(pr) sample.int(K, 1, prob = pr)) - 1L
+fit <- LRMultiClass(X, y, numIter = 20, eta = 0.2, lambda = 1)
+str(fit)
 }

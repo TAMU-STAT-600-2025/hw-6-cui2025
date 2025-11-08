@@ -5,10 +5,6 @@ LRMultiClass_c <- function(X, y, beta_init, numIter = 50L, eta = 0.1, lambda = 1
     .Call(`_GroupHW_LRMultiClass_c`, X, y, beta_init, numIter, eta, lambda)
 }
 
-fitLASSOstandardized_prox_Nesterov_c <- function(Xtilde, Ytilde, lambda, beta_start, eps = 0.0001, s = 0.01) {
-    .Call(`_GroupHW_fitLASSOstandardized_prox_Nesterov_c`, Xtilde, Ytilde, lambda, beta_start, eps, s)
-}
-
 MyKmeans_c <- function(X, K, M, numIter = 100L) {
     .Call(`_GroupHW_MyKmeans_c`, X, K, M, numIter)
 }
