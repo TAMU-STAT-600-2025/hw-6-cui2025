@@ -2,25 +2,30 @@
 % Please edit documentation in R/Kmeans_wrapper.R
 \name{MyKmeans}
 \alias{MyKmeans}
-\title{Title}
+\title{K-means algorithm}
 \usage{
 MyKmeans(X, K, M = NULL, numIter = 100)
 }
 \arguments{
-\item{X}{}
+\item{X}{- n by p matrix containing n data points to cluster}
 
-\item{K}{}
+\item{K}{- integer specifying number of clusters}
 
-\item{M}{}
+\item{M}{- (optional) K by p matrix of cluster centers}
 
-\item{numIter}{}
+\item{numIter}{- number of maximal iterations for the algorithm, the default value is 100}
 }
 \value{
-Explain return
+Explain return # Return the vector of assignments Y
 }
 \description{
-Title
+the algorithm iteratively divides the points into K clusters/groups such that the points within each group are most similar.
 }
 \examples{
 # Give example
+X1 <- matrix(rnorm(100, mean = 0, sd = 0.3), ncol = 2)
+X2 <- matrix(rnorm(100, mean = 3, sd = 0.3), ncol = 2)
+X  <- rbind(X1, X2)
+Y <- MyKmeans(X, K = 2)
+
 }

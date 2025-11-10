@@ -65,25 +65,31 @@ Rcpp::List LRMultiClass_c(const arma::mat& X, const arma::uvec& y, const arma::m
     
     // Initialize anything else that you may need
     objective(0) = objective_fn(X, y, beta, lambda);
-    const arma::mat I_p = arma::eye<arma::mat>(p, p); // Pre-allocate identity
+    
+    // Pre-compute identity matrix for Hessian (avoid repeated allocation) (by Cui)
+    const arma::mat I_p = arma::eye<arma::mat>(p, p); 
     
     // Newton's method cycle - implement the update EXACTLY numIter iterations
     for (int iter = 0; iter < numIter; ++iter) {
-      // current probabilities under beta
+      // Step 1: current probabilities under beta (by Cui)
       arma::mat S = X * beta;                    // n x K
       arma::mat P = row_softmax(S);              // n x K
       
-      // class-wise Newton updates
+      // Step 2: Perform class-wise Newton updates (by Cui)
+      // Each class k is updated independently using its own gradient and Hessian (by Cui)
       for (arma::uword k = 0; k < K; ++k) {
         // pk = P[, k]
+        // Extract probabilities for class k (by Cui)
         arma::vec pk = P.col(k);               // length n
         
         // w = pk * (1 - pk)
+        // Compute weights for weighted least squares: w_i = p_k(i) * (1 - p_k(i))  (by Cui)
         arma::vec w = pk % (1.0 - pk);         // length n
         
         // indicator for class k: y == k (as double vector)
         arma::vec yeqk = arma::conv_to<arma::vec>::from(y == k);
         
+        // This is the derivative of the objective w.r.t. beta_k (by Cui)
         // gradient: gk = X^T (pk - I[y==k]) + lambda * beta_k
         arma::vec gk = X.t() * (pk - yeqk) + lambda * beta.col(k); // p x 1
         
@@ -99,7 +105,7 @@ Rcpp::List LRMultiClass_c(const arma::mat& X, const arma::uvec& y, const arma::m
         beta.col(k) -= eta * step;
       }
       
-      // record objective after this iteration
+      // Step 3: Record objective value after this iteration (by Cui)
       objective(iter + 1) = objective_fn(X, y, beta, lambda);
     }
     
