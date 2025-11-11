@@ -17,6 +17,7 @@
 // beta_init - p x K matrix of starting beta values (always supplied in right format)
 
 // stable row-wise softmax: subtract row max before exp
+// Initializa some variables (by Cui)
 static inline arma::mat row_softmax(const arma::mat& S) {
   arma::mat Z = S;                         // n x K
   arma::colvec rmax = arma::max(Z, 1);     // n x 1
@@ -55,6 +56,7 @@ static inline double objective_fn(const arma::mat& X,
 Rcpp::List LRMultiClass_c(const arma::mat& X, const arma::uvec& y, const arma::mat& beta_init,
                                int numIter = 50, double eta = 0.1, double lambda = 1){
     // All input is assumed to be correct
+    // we may add more function to check if necessary
     
     // Initialize some parameters
     int K = max(y) + 1; // number of classes
@@ -110,6 +112,7 @@ Rcpp::List LRMultiClass_c(const arma::mat& X, const arma::uvec& y, const arma::m
     }
     
     // Create named list with betas and objective values
+    // return the results (by Cui)
     return Rcpp::List::create(Rcpp::Named("beta") = beta,
                               Rcpp::Named("objective") = objective);
 }
