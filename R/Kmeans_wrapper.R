@@ -65,7 +65,7 @@ MyKmeans <- function(X, K, M = NULL, numIter = 100){
     S <- rowsum(X, group = Y_new, reorder = TRUE)    # K x p
     M_new <- S / counts                               
     
-    # check: the centroid values don’t change from one iteration to the next ?
+    # Check for convergence (no change in centroids)
     if (all(M_new == M)) {
       # if yes, then we are done 
       Y <- Y_new
@@ -76,7 +76,7 @@ MyKmeans <- function(X, K, M = NULL, numIter = 100){
     M <- M_new
     Y <- Y_new
     
-    # maximal number of iterations is reached
+    # Stop if maximum iterations reached
     if (iter == numIter) break
   }
   

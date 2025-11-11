@@ -53,6 +53,7 @@ arma::uvec MyKmeans_c(const arma::mat& X, int K,
       counts(Y_new(i) - 1)++; // -1 because Y_new is 1-indexed
     }
     
+    // If any cluster has no points, stop with an error
     if (arma::any(counts == 0)) {
       Rcpp::stop("A cluster vanished (empty) after an iteration. Try a different initialization or K.");
     }
